@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YOU！！！</title>
+    <style>
+        /* 弹窗遮罩层 */
+        .modal-mask {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+        }
+        /* 弹窗内容 */
+        .modal-content {
+            background: white;
+            padding: 30px 50px;
+            border-radius: 8px;
+            font-size: 24px;
+            text-align: center;
+            position: relative;
+        }
+        /* 关闭按钮 */
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 20px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            color: #666;
+        }
+        .close-btn:hover {
+            color: #000;
+        }
+        /* 页面主体样式 */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+        }
+        .page-main {
+            text-align: center;
+            padding-top: 100px;
+            font-size: 18px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <!-- 页面主体内容 -->
+    <div class="page-main">
+        <h1>今天11.11</h1>
+        <p>光棍节快乐</p>
+        <p>哈哈哈</p>
+    </div>
+
+    <!-- 弹窗组件 -->
+    <div class="modal-mask" id="modal">
+        <div class="modal-content">
+            to  106宿舍
+            <button class="close-btn" onclick="closeModal()">×</button>
+        </div>
+    </div>
+
+    <script>
+        // 关闭弹窗函数
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
