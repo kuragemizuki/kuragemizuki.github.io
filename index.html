@@ -3,93 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>密码验证</title>
+    <title>密码对应不同网站跳转</title>
     <style>
-        /* 简单样式，适配手机和电脑 */
         body {
             margin: 0;
             padding: 20px;
-            background: #f5f5f5;
+            background: linear-gradient(135deg, #f0f8fb 0%, #e8f4f8 100%);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            font-family: Arial, sans-serif;
+            font-family: "Microsoft YaHei", Arial, sans-serif;
         }
         .container {
             background: white;
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 45px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
             text-align: center;
+            width: 90%;
+            max-width: 420px;
+        }
+        h2 {
+            color: #2d3748;
+            margin-bottom: 25px;
+            font-size: 22px;
         }
         input {
-            padding: 12px;
-            width: 250px;
-            margin: 15px 0;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+            padding: 14px;
+            width: 280px;
+            margin: 10px 0 20px;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
             font-size: 16px;
+            outline: none;
+            transition: border 0.3s;
+        }
+        input:focus {
+            border-color: #4299e1;
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
         }
         button {
-            padding: 12px 30px;
-            background: #007bff;
+            padding: 14px 35px;
+            background: #4299e1;
             color: white;
             border: none;
-            border-radius: 5px;
-            font-size: 16px;
+            border-radius: 8px;
+            font-size: 17px;
             cursor: pointer;
+            transition: background 0.3s;
         }
         button:hover {
-            background: #0056b3;
+            background: #3182ce;
         }
         .error {
-            color: red;
-            margin-top: 10px;
+            color: #e53e3e;
+            margin-top: 15px;
+            font-size: 15px;
             display: none;
+            animation: shake 0.3s ease;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>请输入密码访问</h2>
-        <input type="password" id="password" placeholder="请输入密码">
+        <h2>请输入密码访问对应页面</h2>
+        <input type="password" id="password" placeholder="输入密码后按回车或点击确认">
         <br>
-        <button onclick="checkPassword()">确定访问</button>
-        <p class="error" id="errorMsg">还未搭建完成</p >
+        <button onclick="checkPassword()">确认访问</button>
+        <p class="error" id="errorMsg">密码错误！请重新输入</p >
     </div>
 
     <script>
-        // 配置参数（可自行修改）
-        const CORRECT_PASSWORD = "070206"; // 正确密码
-        const TARGET_URL = "https://kuragemizuki.github.io/test.html"; // 验证通过后跳转的网站
-        const CORRECT_PASSWORD = "0324"; // 正确密码
-        const TARGET_URL = "https://kuragemizuki.github.io/zhouyao.html"; // 验证通过后跳转的网站
-
-        // 密码验证逻辑
-        function checkPassword() {
-            const inputPwd = document.getElementById("password").value;
-            const errorMsg = document.getElementById("errorMsg");
+        // 核心配置：密码与对应跳转网站的映射表
+        const PASSWORD_URL_MAP = {
+            "zhouyao": "https://kuragemizuki.github.io/zhouyao.html", // 密码1 → 周瑶
+            "070206": "https://kuragemizuki.github.io/test.html", // 密码2 → 测试
+            "github": "https://github.com/", // 密码3 → GitHub
             
-            if (inputPwd === CORRECT_PASSWORD) {
-                window.location.href = TARGET_URL; // 密码正确，跳转
+        };
+
+        // 密码验证与跳转逻辑
+        function checkPassword() {
+            const inputPwd = document.getElementById("password").value.trim();
+            const errorMsg = document.getElementById("errorMsg");
+
+            // 检查输入的密码是否在映射表中
+            if (PASSWORD_URL_MAP.hasOwnProperty(inputPwd)) {
+                errorMsg.style.display = "none";
+                // 密码匹配，跳转到对应网站
+                window.location.href = PASSWORD_URL_MAP[inputPwd];
             } else {
-                errorMsg.style.display = "block"; // 显示错误提示
+                // 密码错误，显示提示并抖动
+                errorMsg.style.display = "block";
+                // 3秒后隐藏错误提示
                 setTimeout(() => {
-                    errorMsg.style.display = "none"; // 3秒后隐藏提示
+                    errorMsg.style.display = "none";
                 }, 3000);
+                // 清空输入框
+                document.getElementById("password").value = "";
             }
         }
 
         // 支持按回车键触发验证
         document.getElementById("password").addEventListener("keydown", function(e) {
-            if (e.key === "Enter") checkPassword();
+            if (e.key === "Enter") {
+                checkPassword();
+            }
         });
     </script>
 </body>
 </html>
-
-
-
-
