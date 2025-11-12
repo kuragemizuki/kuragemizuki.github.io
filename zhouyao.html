@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>福气满满随机色弹窗祝福</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #fdf2f8 0%, #fef7fb 100%);
+            min-height: 100vh;
+            font-family: "Microsoft YaHei", Arial, sans-serif;
+        }
+        .title {
+            text-align: center;
+            padding: 20px 0;
+            color: #e53e3e;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        /* 弹窗样式（文字固定白色，保证可读性） */
+        .blessing-popup {
+            position: fixed;
+            padding: 15px 25px;
+            border-radius: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            color: white; /* 文字白色，适配所有背景色 */
+            font-size: 18px;
+            font-weight: 500;
+            animation: popupAnim 0.5s ease-out forwards, fadeOut 0.5s ease-in forwards 2.5s;
+            z-index: 9999;
+        }
+        /* 弹窗动画 */
+        @keyframes popupAnim {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="title">✨ to 周瑶 ✨</div>
+
+    <script>
+        // 自定义祝福内容（可随意添加/修改）
+        const blessings = [
+            "周瑶一点也不胖！",
+            "周瑶很好看！",
+            "祝周瑶每天开心！",
+            "周瑶练吉他进步神速！",
+            "周瑶每天好运爆棚！"
+        ];
+
+        // 随机背景色数组（选明亮且和谐的颜色，搭配白色文字）
+        const randomColors = [
+            "#e53e3e", "#ed8936", "#f6ad55", "#48bb78", "#38b2ac",
+            "#4299e1", "#9f7aea", "#e53e3e", "#ed8936", "#48bb78",
+            "#38b2ac", "#4299e1", "#9f7aea", "#f56565", "#38a169"
+        ];
+
+        // 生成随机弹窗位置
+        function getRandomPosition() {
+            const windowWidth = window.innerWidth;
+            const windowHeight = window.innerHeight;
+            const left = Math.random() * (windowWidth - 200);
+            const top = Math.random() * (windowHeight - 100);
+            return { left, top };
+        }
+
+        // 创建随机色祝福弹窗
+        function createBlessingPopup() {
+            const popup = document.createElement("div");
+            popup.className = "blessing-popup";
+            // 随机选祝福和背景色
+            const randomBlessing = blessings[Math.floor(Math.random() * blessings.length)];
+            const randomColor = randomColors[Math.floor(Math.random() * randomColors.length)];
+            popup.textContent = randomBlessing;
+            popup.style.backgroundColor = randomColor; // 随机设置背景色
+            // 随机位置
+            const { left, top } = getRandomPosition();
+            popup.style.left = `${left}px`;
+            popup.style.top = `${top}px`;
+            // 添加到页面并3秒后移除
+            document.body.appendChild(popup);
+            setTimeout(() => {
+                popup.remove();
+            }, 3000);
+        }
+
+        // 每1秒生成一个弹窗（可调整频率）
+        setInterval(createBlessingPopup, 1000);
+        // 初始立即生成一个
+        createBlessingPopup();
+    </script>
+</body>
+</html>
