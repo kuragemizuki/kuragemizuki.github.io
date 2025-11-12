@@ -59,15 +59,15 @@
 <body>
     <!-- 页面主体内容 -->
     <div class="page-main">
-        <h1>今天11.11</h1>
-        <p>光棍节快乐</p>
-        <p>哈哈哈</p>
+        <h1>感觉咋样</h1>
+        <p>我觉得不错</p>
+        <p>还是免费的</p>
     </div>
 
     <!-- 弹窗组件 -->
     <div class="modal-mask" id="modal">
         <div class="modal-content">
-            to  106宿舍
+            可以有自己的网站啦
             <button class="close-btn" onclick="closeModal()">×</button>
         </div>
     </div>
