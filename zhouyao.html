@@ -78,12 +78,33 @@
             "#38b2ac", "#4299e1", "#9f7aea", "#f56565", "#38a169"
         ];
 
-        // 生成随机弹窗位置
+        // 生成不重叠随机位置（避开已有弹窗区域）
         function getRandomPosition() {
             const windowWidth = window.innerWidth;
             const windowHeight = window.innerHeight;
-            const left = Math.random() * (windowWidth - 200);
-            const top = Math.random() * (windowHeight - 100);
+            const popupW = 200; // 弹窗宽度
+            const popupH = 60;  // 弹窗高度
+            let left, top;
+            let isOverlap;
+            // 最多尝试10次，避免无限循环
+            for(let i=0;i<10;i++){
+                isOverlap = false;
+                // 随机生成位置（留边距避免贴屏）
+                left = 20 + Math.random() * (windowWidth - popupW - 40);
+                top = 20 + Math.random() * (windowHeight - popupH - 40);
+                // 检查是否与已有弹窗重叠
+                const popups = document.querySelectorAll('.blessing-popup');
+                for(let p of popups){
+                    const pLeft = parseFloat(p.style.left);
+                    const pTop = parseFloat(p.style.top);
+                    // 检测矩形碰撞
+                    if(!(left > pLeft + popupW || left + popupW < pLeft || top > pTop + popupH || top + popupH < pTop)){
+                        isOverlap = true;
+                        break;
+                    }
+                }
+                if(!isOverlap) break;
+            }
             return { left, top };
         }
 
@@ -96,7 +117,7 @@
             const randomColor = randomColors[Math.floor(Math.random() * randomColors.length)];
             popup.textContent = randomBlessing;
             popup.style.backgroundColor = randomColor; // 随机设置背景色
-            // 随机位置
+            // 随机不重叠位置
             const { left, top } = getRandomPosition();
             popup.style.left = `${left}px`;
             popup.style.top = `${top}px`;
@@ -108,11 +129,9 @@
         }
 
         // 每1秒生成一个弹窗（可调整频率）
-        setInterval(createBlessingPopup, 1000);
+        setInterval(createBlessingPopup, 500);
         // 初始立即生成一个
         createBlessingPopup();
     </script>
 </body>
-
 </html>
-
